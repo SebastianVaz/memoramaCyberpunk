@@ -123,6 +123,29 @@ nav h1 {
     1px 25px 50px rgba(16, 16, 16, 0.2);
 }
 
+.form {
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form label{
+  font-size: 1rem;
+  font-size: clamp(1rem, 0.8rem + 1vw, 1.3rem);
+}
+
+input{
+  background-color: var(--blue-color);
+  margin-left: 10px;
+  outline: 0;
+  border: 0;
+  border-bottom: 2px solid var(--black-color);
+  font-size: 1.3rem;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+
 .cajaPuntuacion h2 {
   font-size: 1rem;
   font-size: clamp(1rem, 0.8rem + 1vw, 2rem);
@@ -134,6 +157,12 @@ nav h1 {
   justify-content: space-around;
   flex-wrap: wrap;
   gap: 10px;
+}
+
+main h2{
+  font-size: 1rem;
+  font-size: clamp(1rem, 0.8rem + 1vw, 2rem);
+  padding: 5%;
 }
 
 button {

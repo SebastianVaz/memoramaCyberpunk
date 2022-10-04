@@ -28,6 +28,22 @@ function App() {
       })
   }, [])
 
+  const obtenerNumeroCartas = () => {
+    const inputPares = document.getElementById("numeroCartas");
+    const numeroPares = inputPares.value
+    if (numeroPares) {
+      document.getElementById("AlertaForma").innerHTML = null;
+      inputPares.style.backgroundColor = '#00f0ff'
+      inputPares.style.border = "none"
+      return numeroPares * 2
+    } else {
+      document.getElementById("AlertaForma").innerHTML = "Ingrese un numero para iniciar el juego";
+      inputPares.style.backgroundColor = '#fcee09'
+      inputPares.style.border = "3px solid #050a0e"
+      return null;
+    }
+  }
+
   return (
 
     <div className='container'>
@@ -39,12 +55,19 @@ function App() {
         <div>
           {opciones === null ? (
             <div>
+              <div className='form'>
+                <label for="numeroCartas">Numero de pares:
+                  <input type="number" name='numeroCartas' id="numeroCartas" required />
+                </label>
+                <p id="AlertaForma"></p>
+
+              </div>
               
-              <button onClick={() => setOpciones(12)}>
-              <div className='button__content'>Iniciar juego</div>
-              <span class="button__glitch"></span>
+              <button onClick={() => setOpciones(obtenerNumeroCartas())}>
+                <div className='button__content'>Iniciar juego</div>
+                <span class="button__glitch"></span>
                 <span className='button__label'>r26</span>
-                </button>
+              </button>
             </div>
           ) : (
             <div className='CajaBotones'>
