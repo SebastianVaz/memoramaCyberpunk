@@ -25,11 +25,19 @@ const Memorama = ({ opciones, setOpciones, puntuacion, setPuntuacion, personaje 
 
   useEffect(() => {
     const nuevaPartida = [];
+    const personajesUsados = [];
     console.log('generando partida');
     // const imagenCarta = personaje?.results[Math.floor(Math.random()*personaje.results.length)].image
     debugger;
     for (let i = 0; i < opciones / 2; i++) {
-      const imagenCarta = personaje?.results[Math.floor(Math.random()*personaje.results.length)].image
+      let imagenCarta = personaje?.results[Math.floor(Math.random() * personaje.results.length)].image
+      if (personajesUsados.includes(imagenCarta)) {
+        while(personajesUsados.includes(imagenCarta)) {
+          imagenCarta = personaje?.results[Math.floor(Math.random() * personaje.results.length)].image
+        }
+        
+      }
+      personajesUsados.push(imagenCarta);
       const primeraSeleccion = {
         id: 2 * i,
         cartaId: i,
@@ -57,32 +65,32 @@ const Memorama = ({ opciones, setOpciones, puntuacion, setPuntuacion, personaje 
   useEffect(() => {
     const partidaTerminada = !partida.some(carta => !carta.volteada);
 
-    if(partidaTerminada && partida.length > 0) {
+    if (partidaTerminada && partida.length > 0) {
       setTimeout(() => {
         const movimientoPerfectos = partida.length;
         let multiplciador;
 
-        if(opciones === 12) {
+        if (opciones < 12) {
           multiplciador = 5;
+        } else {
+          multiplciador = 7;
         }
 
         const perdidaDePuntos = multiplciador * (0.66 * cartasVolteadas - movimientoPerfectos);
 
         let puntos;
-        if(perdidaDePuntos < 100) {
-          puntos = 100 - perdidaDePuntos;
-        } else {
-          puntos = 0;
-        }
 
-        if(puntos > puntuacion) {
+        puntos = 1000 - perdidaDePuntos;
+
+
+        if (puntos > puntuacion) {
           setPuntuacion(puntuacion);
           const json = JSON.stringify(puntos);
           localStorage.setItem('memoramapuntacionalta', json);
         }
-        
+
         const nuevaPartida = window.confirm('Ganaste!, Puntuacion: ' + puntos + 'Nueva partida?');
-        if(nuevaPartida) {
+        if (nuevaPartida) {
           const longuitudPartida = partida.length
           setOpciones(null);
           setTimeout(() => {
@@ -92,16 +100,16 @@ const Memorama = ({ opciones, setOpciones, puntuacion, setPuntuacion, personaje 
           setOpciones(null)
         }
 
-      },500)
+      }, 500)
     }
 
   }, [partida])
 
-  if(indicesVolteados.length === 2) {
+  if (indicesVolteados.length === 2) {
     //logica cuando dos cartas fueron volteadas
     const pareja = partida[indicesVolteados[0]].cartaId === partida[indicesVolteados[1]].cartaId;
     debugger;
-    if(pareja) {
+    if (pareja) {
       const nuevaPartida = [...partida];
       nuevaPartida[indicesVolteados[0]].volteada = true;
       nuevaPartida[indicesVolteados[1]].volteada = true;
@@ -117,22 +125,22 @@ const Memorama = ({ opciones, setOpciones, puntuacion, setPuntuacion, personaje 
     }
   }
 
-  if(partida.length === 0) {
+  if (partida.length === 0) {
     return <div>Generando partida...</div>
   } else {
     return (
       // <h1>Texto prueba</h1>
       <div id="cartas">
-        {partida.map((carta,indice) => (
+        {partida.map((carta, indice) => (
           <div className='carta' key={indice}>
             <Carta
               id={indice}
               color={carta.color}
               partida={partida}
-              cartasVolteadas = {cartasVolteadas}
-              setCartasVolteadas = {setCartasVolteadas}
-              indicesVolteados = {indicesVolteados}
-              setIndicesVolteados = {setIndicesVolteados}
+              cartasVolteadas={cartasVolteadas}
+              setCartasVolteadas={setCartasVolteadas}
+              indicesVolteados={indicesVolteados}
+              setIndicesVolteados={setIndicesVolteados}
               imagenCarta={carta.imagen}
             />
           </div>
